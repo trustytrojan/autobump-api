@@ -1,0 +1,33 @@
+{
+	"dependencies": {
+		"discord.js-selfbot-v13": "^3.1.4",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.2",
+		"mongodb": "^6.15.0",
+		"slash-create": "^6.3.2",
+		"stripe": "^18.0.0",
+		"tweetnacl": "^1.0.3"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.1",
+		"@types/node": "^22.13.17",
+		"prettier": "^3.5.2"
+	},
+	"type": "module",
+	"scripts": {
+		"start": "bash -c 'node src/index.ts &>log & echo $! >pid'",
+		"stop": "bash -c 'kill $(<pid)'",
+		"fmt": "prettier --log-level=warn --write ./src/**/*.ts",
+		"build": "tsc"
+	},
+	"prettier": {
+		"arrowParens": "avoid",
+		"trailingComma": "none",
+		"useTabs": true,
+		"printWidth": 120,
+		"tabWidth": 4,
+		"semi": true,
+		"singleQuote": true,
+		"proseWrap": "preserve"
+	}
+}
