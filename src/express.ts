@@ -9,7 +9,9 @@ if (isNaN(port)) {
 }
 
 export const app = express();
-app.use(express.json());
 
-const server = app.listen(port, () => util.log(`Express server listening on port ${port}`));
-util.closeBeforeExit(server);
+const server = app.listen(
+	port,
+	() => util.log(`Express server listening on port ${port}`),
+);
+util.closeables.push(server);

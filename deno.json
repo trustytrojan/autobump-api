@@ -1,0 +1,24 @@
+{
+	"lint": {
+		"rules": {
+			"exclude": [
+				"no-explicit-any"
+			]
+		}
+	},
+	"fmt": {
+		"useTabs": true,
+		"trailingCommas": "onlyMultiLine",
+		"lineWidth": 80,
+		"indentWidth": 4,
+		"semiColons": true,
+		"singleQuote": true,
+		"proseWrap": "preserve",
+		"include": ["src/**/*.ts"],
+		"nextControlFlowPosition": "sameLine",
+		"operatorPosition": "nextLine",
+		"singleBodyPosition": "nextLine",
+		"typeLiteral.separatorKind": "semiColon",
+		"useBraces": "preferNone"
+	}
+}

@@ -6,11 +6,11 @@ export default class Ping extends sc.SlashCommand {
 		super(creator, {
 			name: 'ping',
 			description: 'ping',
-			...util.defaultSlashCommandOptions
+			...util.defaultSlashCommandOptions,
 		});
 	}
 
-	async run(ctx: sc.CommandContext) {
+	override run(ctx: sc.CommandContext): any {
 		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
 		return 'pong!';
 	}

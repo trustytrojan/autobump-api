@@ -7,18 +7,22 @@ export default class CheckBalance extends sc.SlashCommand {
 		super(creator, {
 			name: 'check_balance',
 			description: 'check your bump balance',
-			...util.defaultSlashCommandOptions
+			...util.defaultSlashCommandOptions,
 		});
 	}
 
-	async run(ctx: sc.CommandContext) {
+	override async run(ctx: sc.CommandContext): Promise<string> {
 		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
+
 		const user = await db.getUser(ctx.user.id);
+
 		if (!user) {
 			await db.registerUser(ctx.user.id);
 			return this.run(ctx);
 		}
-		util.log(`User retrieved: ${user}`);
+
+		util.log('User retrieved:', user);
+
 		return `you have ${user.bumps} bumps`;
 	}
 }

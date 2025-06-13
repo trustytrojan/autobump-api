@@ -9,20 +9,26 @@ import { app } from './express.ts';
 const creator = new sc.SlashCreator({
 	applicationID: '1355988571261112521',
 	publicKey: process.env.DISCORD_PUBLIC_KEY,
-	token: process.env.DISCORD_TOKEN
+	token: process.env.DISCORD_TOKEN,
 });
 
-// creator.on('debug', util.log);
+creator.on('debug', console.log);
 creator.on('error', console.error);
 
-await creator.registerCommandsIn(path.join(import.meta.dirname, 'commands'), ['.ts']);
+await creator.registerCommandsIn(path.join(import.meta.dirname!, 'commands'), [
+	'.ts',
+]);
 
 if (process.env.TEST_GUILD) {
-	await creator.syncCommandsIn(process.env.TEST_GUILD).catch(() => util.log('app not added to test guild!'));
+	await creator
+		.syncCommandsIn(process.env.TEST_GUILD)
+		.catch(() => util.log('app not added to test guild!'));
 } else {
 	console.log('about to sync global commands... press enter if ready');
 	await once(process.stdin, 'data');
 	await creator.syncGlobalCommands();
 }
 
-await creator.withServer(new sc.ExpressServer(app, { alreadyListening: true })).startServer();
+await creator
+	.withServer(new sc.ExpressServer(app, { alreadyListening: true }))
+	.startServer();

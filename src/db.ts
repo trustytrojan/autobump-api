@@ -1,5 +1,6 @@
 import mdb from 'mongodb';
 import * as util from './util.ts';
+import process from 'node:process';
 (await import('dotenv')).config();
 
 const uri = process.env.MONGODB_URI;
@@ -12,37 +13,71 @@ const client = new mdb.MongoClient(uri, {
 	serverApi: {
 		version: mdb.ServerApiVersion.v1,
 		strict: true,
-		deprecationErrors: true
-	}
+		deprecationErrors: true,
+	},
 });
 util.log('Connecting to MongoDB server...');
 await client.connect();
 util.log('MongoDB client connected');
-util.closeBeforeExit(client);
+util.closeables.push(client);
 
 const autobumpDb = client.db('autobump');
-const users = autobumpDb.collection('users');
-const channels = autobumpDb.collection('channels');
+export const users = autobumpDb.collection('users');
+export const channels = autobumpDb.collection('channels');
 
-export type BumperType = 'disboard' | 'discordhome';
+export const bumperTypes = ['disboard', 'discordhome', 'discodus'];
+export type BumperType = 'disboard' | 'discordhome' | 'discodus';
 
 export type User = mdb.WithId<mdb.Document> & {
 	discordUserId: string;
 	bumps: number;
 };
 
-export type Channel = mdb.WithId<mdb.Document> & {
+export type Channel = {
 	discordUserId: string;
 	discordChannelId: string;
-	enabled: boolean;
-	bumpers: BumperType[];
-	selfbotToken: string | null;
+	bumper: BumperType;
 };
 
-export const getUser = async (id: string) => (await users.findOne({ discordUserId: id })) as User | null;
-export const getChannel = async (id: string) => (await channels.findOne({ discordChannelId: id })) as Channel | null;
-export const getChannelsForUser = async (id: string) =>
-	channels.find({ discordUserId: id }) as mdb.FindCursor<Channel | null>;
+export const getUser = async (discordId: string) =>
+	(await users.findOne({ discordUserId: discordId })) as
+		| (mdb.WithId<mdb.Document> & User)
+		| null;
 
-export const registerUser = async (id: string) => await users.insertOne({ discordUserId: id, bumps: 0 });
+export const addBumps = async (discordUserId: string, bumps: number) => {
+	const user = await getUser(discordUserId);
+	if (!user)
+		throw 'not found';
+	await users.updateOne({ discordUserId: discordUserId }, {
+		$inc: { bumps },
+	});
+};
+
+export const deductBump = async (discordUserId: string) => {
+	const user = await getUser(discordUserId);
+	if (!user)
+		throw 'not found';
+	if (user.bumps <= 0)
+		throw 'no bumps';
+	await users.updateOne({ discordUserId: discordUserId }, {
+		$inc: { bumps: -1 },
+	});
+};
+
+export const getChannel = async (userId: string, channelId: string) =>
+	(await channels.findOne({
+		discordUserId: userId,
+		discordChannelId: channelId,
+	})) as
+		| (mdb.WithId<mdb.Document> & Channel)
+		| null;
+
+export const getChannelsForUser = (discordId: string) =>
+	channels.find({ discordUserId: discordId }) as mdb.FindCursor<
+		mdb.WithId<mdb.Document> & Channel
+	>;
+
+export const registerUser = async (discordId: string, bumps = 0) =>
+	await users.insertOne({ discordUserId: discordId, bumps });
+
 export const addChannel = async (c: Channel) => await channels.insertOne(c);
