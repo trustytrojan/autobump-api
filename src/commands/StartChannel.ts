@@ -21,7 +21,7 @@ export default class StartChannel extends sc.SlashCommand {
 		});
 	}
 
-	override async autocomplete(ctx: sc.AutocompleteContext): Promise<sc.AutocompleteChoice[]> {
+	override async autocomplete(ctx: sc.AutocompleteContext) {
 		if (ctx.focused !== 'channel') return [];
 		return db.autocompleteChannels(ctx.user.id);
 	}

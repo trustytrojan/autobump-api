@@ -14,7 +14,7 @@ export default class BuyBumps extends sc.SlashCommand {
 		});
 	}
 
-	override async run(ctx: sc.CommandContext): Promise<any> {
+	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
 
 		const user = await db.getUserByDiscordId(ctx.user.id);

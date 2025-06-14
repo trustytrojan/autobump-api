@@ -11,7 +11,7 @@ export default class CheckBalance extends sc.SlashCommand {
 		});
 	}
 
-	override async run(ctx: sc.CommandContext): Promise<string> {
+	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
 
 		const user = await db.getUserByDiscordId(ctx.user.id);

@@ -5,3 +5,4 @@ slash-create is annoying, you need to make the following changes:
 ## todo
 - allow user-accessible logging per channel-bumper pair
 - better error-reporting
+- turn trustytrojan/autobump into a JSR package, that is imported here

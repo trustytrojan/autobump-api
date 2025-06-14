@@ -10,7 +10,7 @@ export default class Ping extends sc.SlashCommand {
 		});
 	}
 
-	override run(ctx: sc.CommandContext): any {
+	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
 		return 'pong!';
 	}
