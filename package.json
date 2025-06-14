@@ -4,6 +4,7 @@
 		"dotenv": "^16.5.0",
 		"express": "^5.1.0",
 		"mongodb": "^6.17.0",
+		"out-of-character": "^2.0.1",
 		"slash-create": "^6.3.2",
 		"stripe": "^18.2.1",
 		"tweetnacl": "^1.0.3"

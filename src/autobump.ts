@@ -10,7 +10,7 @@ import assert from 'node:assert';
  */
 export type AutobumpFunction = (channel: sb.TextChannel) => Promise<number>;
 
-const selfbot = new sb.Client({ presence: { status: 'invisible' } });
+export const selfbot = new sb.Client({ presence: { status: 'invisible' } });
 await selfbot.login(process.env.SELFBOT_TOKEN);
 util.log('selfbot logged in!');
 selfbot.once('ready', () => util.log('selfbot ready!'));
@@ -27,12 +27,14 @@ export const stopBumper = (channelId: string, bumperType?: string) => {
 			clearTimeout(handleStore[id]);
 			delete handleStore[id];
 		}
+		util.log(`stopped all bumpers in channelId=${channelId}`);
 		return;
 	}
 
 	const identifier = `${channelId}-${bumperType}`;
 	clearTimeout(handleStore[identifier]);
 	delete handleStore[identifier];
+	util.log(`stopped bumper for channel=${channelId} bumper=${bumperType}`);
 };
 
 export const startBumper = async (
@@ -83,4 +85,5 @@ export const startBumper = async (
 	};
 
 	loop(1_000);
+	util.log(`started bumper for user=${userId} channel=${channelId} bumper=${bumperType}`);
 };

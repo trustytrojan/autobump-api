@@ -1,5 +1,8 @@
 import mdb from 'mongodb';
+import sc from 'slash-create';
+import sb from 'discord.js-selfbot-v13';
 import * as util from './util.ts';
+import * as autobump from './autobump.ts';
 import process from 'node:process';
 (await import('dotenv')).config();
 
@@ -39,13 +42,13 @@ export type Channel = {
 	bumper: BumperType;
 };
 
-export const getUser = async (discordId: string) =>
+export const getUserByDiscordId = async (discordId: string) =>
 	(await users.findOne({ discordUserId: discordId })) as
-		| (mdb.WithId<mdb.Document> & User)
-		| null;
+	| (mdb.WithId<mdb.Document> & User)
+	| null;
 
 export const addBumps = async (discordUserId: string, bumps: number) => {
-	const user = await getUser(discordUserId);
+	const user = await getUserByDiscordId(discordUserId);
 	if (!user)
 		throw 'not found';
 	await users.updateOne({ discordUserId: discordUserId }, {
@@ -54,7 +57,7 @@ export const addBumps = async (discordUserId: string, bumps: number) => {
 };
 
 export const deductBump = async (discordUserId: string) => {
-	const user = await getUser(discordUserId);
+	const user = await getUserByDiscordId(discordUserId);
 	if (!user)
 		throw 'not found';
 	if (user.bumps <= 0)
@@ -64,13 +67,10 @@ export const deductBump = async (discordUserId: string) => {
 	});
 };
 
-export const getChannel = async (userId: string, channelId: string) =>
-	(await channels.findOne({
-		discordUserId: userId,
-		discordChannelId: channelId,
-	})) as
-		| (mdb.WithId<mdb.Document> & Channel)
-		| null;
+export const getChannelById = async (_id: string) =>
+	(await channels.findOne({ _id: new mdb.ObjectId(_id) })) as
+	| mdb.WithId<mdb.Document> & Channel
+	| null;
 
 export const getChannelsForUser = (discordId: string) =>
 	channels.find({ discordUserId: discordId }) as mdb.FindCursor<
@@ -81,3 +81,22 @@ export const registerUser = async (discordId: string, bumps = 0) =>
 	await users.insertOne({ discordUserId: discordId, bumps });
 
 export const addChannel = async (c: Channel) => await channels.insertOne(c);
+
+export const autocompleteChannels = async (discordUserId: string) => {
+	const channels = getChannelsForUser(discordUserId);
+	const results: sc.AutocompleteChoice[] = [];
+	for await (const c of channels) {
+		util.log(`processing channel ${c._id}`);
+		const channel = await autobump.selfbot.channels.fetch(c.discordChannelId);
+		if (!channel) {
+			util.log(`WARNING: channel ${c.discordChannelId} no longer exists, you should delete`);
+			continue;
+		}
+		if (!(channel instanceof sb.GuildChannel)) {
+			util.log(`WARNING: non guild channel found in channels collection: ${channel.id}`);
+			continue;
+		}
+		results.push({ name: `${channel.guild.name} ⮞ ${channel.name}, bumping ${c.bumper}`, value: c._id.toString() });
+	}
+	return results;
+};

@@ -3,39 +3,32 @@ import * as db from '../db.ts';
 import * as util from '../util.ts';
 import * as autobump from '../autobump.ts';
 
-export default class StopBumper extends sc.SlashCommand {
+export default class StopChannel extends sc.SlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
-			name: 'stop_bumper',
+			name: 'stop_channel',
 			description: 'stop a running autobumper',
 			options: [
 				{
 					type: sc.CommandOptionType.STRING,
-					name: 'id',
-					description: 'id of an autobump channel record to stop',
+					name: 'channel',
+					description: 'channel to stop autobumping in',
 					required: true,
-				},
-				{
-					type: sc.CommandOptionType.STRING,
-					name: 'type',
-					description:
-						'bumper type to stop in the channel (if unspecified, stops all bumpers)',
-					choices: [
-						{ name: 'DISBOARD', value: 'disboard' },
-						{ name: 'DiscordHome', value: 'discordhome' },
-						{ name: 'Discodus', value: 'discodus' },
-					],
+					autocomplete: true,
 				},
 			],
 			...util.defaultSlashCommandOptions,
 		});
 	}
 
+	override async autocomplete(ctx: sc.AutocompleteContext): Promise<sc.AutocompleteChoice[]> {
+		if (ctx.focused !== 'channel') return [];
+		return db.autocompleteChannels(ctx.user.id);
+	}
+
 	override async run(ctx: sc.CommandContext) {
-		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
-
+		util.logInteraction(ctx);
 		const { id, type } = ctx.options;
-
 		const msg: sc.MessageOptions = { ephemeral: true, content: '' };
 
 		if (!id) {
@@ -43,8 +36,7 @@ export default class StopBumper extends sc.SlashCommand {
 			return msg;
 		}
 
-		const c = await db.getChannel(ctx.user.id, id);
-
+		const c = await db.getChannelById(id);
 		if (!c) {
 			msg.content +=
 				'channel does not exist! did you run /add_channel?\n';

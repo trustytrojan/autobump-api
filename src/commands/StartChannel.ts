@@ -11,35 +11,27 @@ export default class StartChannel extends sc.SlashCommand {
 			options: [
 				{
 					type: sc.CommandOptionType.STRING,
-					name: 'id',
-					description: 'id of an autobump channel to start',
+					name: 'channel',
+					description: 'channel to start autobumping in',
 					required: true,
-				},
-				{
-					type: sc.CommandOptionType.STRING,
-					name: 'token',
-					description:
-						'token of a discord USER account to use for bumping. tokens are NOT STORED.',
+					autocomplete: true,
 				},
 			],
 			...util.defaultSlashCommandOptions,
 		});
 	}
 
+	override async autocomplete(ctx: sc.AutocompleteContext): Promise<sc.AutocompleteChoice[]> {
+		if (ctx.focused !== 'channel') return [];
+		return db.autocompleteChannels(ctx.user.id);
+	}
+
 	override async run(ctx: sc.CommandContext) {
-		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
-
-		const { id, token } = ctx.options;
-
+		util.logInteraction(ctx);
+		const { channel: id } = ctx.options;
 		const msg: sc.MessageOptions = { ephemeral: true, content: '' };
 
-		if (!id || !token) {
-			msg.content += 'a required option is missing!\n';
-			return msg;
-		}
-
-		const c = await db.getChannel(ctx.user.id, id);
-
+		const c = await db.getChannelById(id);
 		if (!c) {
 			msg.content +=
 				'channel does not exist! did you run /add_channel?\n';

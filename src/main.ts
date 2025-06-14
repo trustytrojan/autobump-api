@@ -2,7 +2,6 @@ import process from 'node:process';
 import path from 'node:path';
 import * as util from './util.ts';
 import sc from 'slash-create';
-import { once } from 'node:events';
 (await import('dotenv')).config();
 import { app } from './express.ts';
 
@@ -25,8 +24,8 @@ if (process.env.TEST_GUILD) {
 		.catch(() => util.log('app not added to test guild!'));
 } else {
 	console.log('about to sync global commands... press enter if ready');
-	await once(process.stdin, 'data');
-	await creator.syncGlobalCommands();
+	if (await util.askYesNo('sync global commands?', false))
+		await creator.syncGlobalCommands(true);
 }
 
 await creator

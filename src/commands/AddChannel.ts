@@ -9,10 +9,10 @@ export default class AddChannel extends sc.SlashCommand {
 			description: 'create an autobump channel',
 			options: [
 				{
-					type: sc.CommandOptionType.STRING,
+					type: sc.CommandOptionType.CHANNEL,
 					name: 'channel',
 					description: 'channel to add',
-					// channel_types: [sc.ChannelType.GUILD_TEXT],
+					channel_types: [sc.ChannelType.GUILD_TEXT],
 					required: true,
 				},
 				{
@@ -32,10 +32,8 @@ export default class AddChannel extends sc.SlashCommand {
 	}
 
 	override async run(ctx: sc.CommandContext) {
-		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
-
+		util.logInteraction(ctx);
 		const { channel: channelId, bumper } = ctx.options;
-
 		const msg: sc.MessageOptions = { ephemeral: true, content: '' };
 
 		if (!channelId || !bumper) {

@@ -12,9 +12,7 @@ export default class ListChannels extends sc.SlashCommand {
 	}
 
 	override async run(ctx: sc.CommandContext) {
-		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
-
-		const channelsCursor = db.getChannelsForUser(ctx.user.id);
+		util.logInteraction(ctx);
 
 		const embed: sc.MessageEmbedOptions = {
 			title: `Channels for @${ctx.user.username}`,
@@ -22,6 +20,7 @@ export default class ListChannels extends sc.SlashCommand {
 		};
 
 		const msg: sc.MessageOptions = { ephemeral: true, embeds: [embed] };
+		const channelsCursor = db.getChannelsForUser(ctx.user.id);
 
 		if (!(await channelsCursor.hasNext())) {
 			embed.description = 'No channels found';

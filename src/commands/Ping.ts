@@ -11,7 +11,7 @@ export default class Ping extends sc.SlashCommand {
 	}
 
 	override run(ctx: sc.CommandContext): any {
-		util.log(`user=${ctx.user.id} channel=${ctx.channelID}`);
+		util.logInteraction(ctx);
 		return 'pong!';
 	}
 }

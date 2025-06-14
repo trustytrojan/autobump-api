@@ -1,10 +1,12 @@
 import sc from 'slash-create';
 import sb from 'discord.js-selfbot-v13';
 import process from 'node:process';
+import readline from 'node:readline';
 import express from 'express';
 import { Buffer } from 'node:buffer';
 import { once } from 'node:events';
 (await import('dotenv')).config();
+import node_util from 'node:util';
 
 export const log = (...values: unknown[]) => _log('log', values);
 export const logError = (...values: unknown[]) => _log('error', values);
@@ -20,6 +22,9 @@ const _log = (logType: 'error' | 'log', values: unknown[]) => {
 		...values,
 	);
 };
+
+export const logInteraction = (ctx: sc.AutocompleteContext | sc.CommandContext) =>
+	log(`user=${ctx.user.id} channel=${ctx.channelID} options=${node_util.inspect(ctx.options)}`);
 
 export const millisFrom = ({
 	hours,
@@ -79,3 +84,35 @@ export const readExpressRequest = async (req: express.Request) => {
 	await once(req, 'end');
 	return Buffer.concat(chunks);
 };
+
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout,
+});
+
+export const askYesNo = (
+	question: string,
+	defaultYes: boolean,
+): Promise<boolean> =>
+	new Promise((resolve) => {
+		const validateInput = (input: string) => {
+			const answer = input.trim().toLowerCase();
+			if (answer === '') {
+				rl.close();
+				resolve(defaultYes); // Return the default value if input is empty
+			} else if (answer === 'y') {
+				rl.close();
+				resolve(true); // Return true for "yes"
+			} else if (answer === 'n') {
+				rl.close();
+				resolve(false); // Return false for "no"
+			} else {
+				console.log('Please enter "y" or "n".');
+				rl.question(question, validateInput);
+			}
+		};
+
+		// Adjust the prompt based on the default value
+		const defaultIndicator = defaultYes ? '[Y/n]' : '[y/N]';
+		rl.question(`${question} ${defaultIndicator}: `, validateInput);
+	});
