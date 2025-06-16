@@ -61,6 +61,8 @@ export const startBumper = async (
 	const bump = await util.importBumper(bumperType);
 
 	const deductBump = async (ms: number) => {
+		if (userId === '239743430899531777')
+			return ms;
 		try {
 			await db.deductBump(userId);
 		} catch (err) {

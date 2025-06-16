@@ -20,5 +20,9 @@
 		"singleBodyPosition": "nextLine",
 		"typeLiteral.separatorKind": "semiColon",
 		"useBraces": "preferNone"
+	},
+	"tasks": {
+		"start": "bash -c 'deno -A src/main.ts 4000 &>log & echo $! >pid'",
+		"stop": "bash -c 'kill $(<pid)'"
 	}
 }

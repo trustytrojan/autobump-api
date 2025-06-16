@@ -37,7 +37,7 @@ interface StripeEventMap {
 
 export const events = new EventEmitter<StripeEventMap>();
 
-app.post('/stripe', async (req, res) => {
+app.post('/autobump/stripe', async (req, res) => {
 	const rawBody = await util.readExpressRequest(req);
 
 	const signature = req.headers['stripe-signature'];

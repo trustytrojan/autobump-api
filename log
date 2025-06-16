@@ -1,0 +1,298 @@
+[6/16/2025, 4:49:43 PM; ServerImpl.<anonymous> (file:///root/autobump-api/src/express.ts:15:13)] Express server listening on port 4000
+[6/16/2025, 4:49:44 PM; file:///root/autobump-api/src/db.ts:22:6] Connecting to MongoDB server...
+(node:1847748) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[6/16/2025, 4:49:44 PM; file:///root/autobump-api/src/db.ts:24:6] MongoDB client connected
+[6/16/2025, 4:49:45 PM; file:///root/autobump-api/src/autobump.ts:15:6] selfbot logged in!
+[6/16/2025, 4:49:45 PM; file:///root/autobump-api/src/stripe.ts:97:6] Stripe webhook listener registered
+Registered command 1:global:invite_bot.
+Registered command 1:global:list_channels.
+Registered command 1:global:buy_bumps.
+Registered command 1:global:add_channel.
+Registered command 1:global:check_balance.
+Registered command 1:global:stop_channel.
+Registered command 1:global:start_channel.
+Registered command 1:global:ping.
+Updated bucket hash (GET:/applications/:id/commands) to dd84d9818020c27975c0d5ab4a794d44
+GET /applications/:id/commands (GET:/applications/:id/commands:global) 200: 177ms | 999/1000 left | Reset 1750106985346 (0ms left)
+Found command "ping" (1369052068274507911, type 1)
+Found command "check_balance" (1383194243891331082, type 1)
+Found command "start_channel" (1383194243891331084, type 1)
+Found command "add_channel" (1383194243891331085, type 1)
+Found command "buy_bumps" (1383194243891331086, type 1)
+Found command "list_channels" (1383194243891331087, type 1)
+Found command "invite_bot" (1383213689338990713, type 1)
+Found command "stop_channel" (1383234635504423032, type 1)
+Updated bucket hash (PUT:/applications/:id/commands) to 3e32a240d3716487d7d8f6dae6c54f6b
+PUT /applications/:id/commands (PUT:/applications/:id/commands:global) 200: 229ms | 1/2 left | Reset 1750107015583 (29999ms left)
+Server started
+Got request
+A request failed to be verified
+Got request
+Ping received
+Got request
+Running command: list_channels (1383194243891331087, guild 1317211696619847700)
+[6/16/2025, 4:50:30 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=239743430899531777 channel=1367306161442783383 options={}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+Got request
+Running command: add_channel (1383194243891331085, guild 1317211696619847700)
+[6/16/2025, 4:51:32 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ channel: '1367306161442783383', bumper: 'disboard' }
+Got request
+Running command: ping (1369052068274507911, guild 1317211696619847700)
+[6/16/2025, 4:51:42 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:51:47 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:51:52 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running command: check_balance (1383194243891331082, guild 1317211696619847700)
+[6/16/2025, 4:52:04 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={}
+[6/16/2025, 4:52:04 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={}
+[6/16/2025, 4:52:04 PM; CheckBalance.run (file:///root/autobump-api/src/commands/CheckBalance.ts:23:8)] User retrieved: {
+  _id: new ObjectId("685083f450f782c468cd8fea"),
+  discordUserId: "912828654776631446",
+  bumps: 0
+}
+Got request
+Running command: check_balance (1383194243891331082, guild 1317211696619847700)
+[6/16/2025, 4:53:42 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={}
+[6/16/2025, 4:53:42 PM; CheckBalance.run (file:///root/autobump-api/src/commands/CheckBalance.ts:23:8)] User retrieved: {
+  _id: new ObjectId("685083f450f782c468cd8fea"),
+  discordUserId: "912828654776631446",
+  bumps: 10
+}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:53:49 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running command: list_channels (1383194243891331087, guild 1317211696619847700)
+[6/16/2025, 4:54:11 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:54:58 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 6819234d48a207de367f4a35
+[6/16/2025, 4:54:58 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 684cbe39b9c786af170ab50f
+Got request
+Running command: add_channel (1383194243891331085, guild 1317211696619847700)
+[6/16/2025, 4:55:20 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ channel: '1367306161442783383', bumper: 'disboard' }
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:55:33 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:55:38 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:55:39 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running command: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:55:41 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ channel: 'bump' }
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:55:41 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 4:56:14 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+DiscordAPIError: Missing Access
+    at RequestHandler.execute (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:425:13)
+    at Object.runMicrotasks (ext:core/01_core.js:692:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:185:21)
+    at async RequestHandler.push (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/rest/RequestHandler.js:64:14)
+    at async ChannelManager.fetch (file:///root/autobump-api/node_modules/.deno/discord.js-selfbot-v13@3.6.1/node_modules/discord.js-selfbot-v13/src/managers/ChannelManager.js:115:18)
+    at async Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:90:19)
+    at async SlashCreator._onInteraction (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:570:40)
+    at async SlashCreator._onRequest (file:///root/autobump-api/node_modules/.deno/slash-create@6.4.2/node_modules/slash-create/lib/creator.js:457:13) {
+  name: "DiscordAPIError",
+  message: "Missing Access",
+  method: "get",
+  path: "/channels/1367306161442783383",
+  code: 50001,
+  httpStatus: 403,
+  requestData: { json: undefined, files: [], headers: undefined },
+  retries: 0,
+  captcha: null
+}
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:56:38 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ invite_link: 'https://discord.gg/29qRrnfpb6' }
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:56:53 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ invite_link: '29qRrnfpb6' }
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:57:20 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ invite_link: 'discord.gg/29qRrnfpb6' }
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:58:05 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=239743430899531777 channel=1367306161442783383 options={ invite_link: 'discord.gg/29qRrnfpb6' }
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:58:13 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=239743430899531777 channel=1367306161442783383 options={ invite_link: 'https://discord.gg/29qRrnfpb6' }
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:58:23 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=239743430899531777 channel=1367306161442783383 options={ invite_link: '29qRrnfpb6' }
+Got request
+Running command: invite_bot (1383213689338990713, guild 1317211696619847700)
+[6/16/2025, 4:59:45 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ invite_link: 'https://discord.gg/VRVnM6My' }
+Got request
+Running command: add_channel (1383194243891331085, guild 1317211696619847700)
+[6/16/2025, 5:02:06 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ channel: '1367306161442783383', bumper: 'disboard' }
+Got request
+Running autocomplete function: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 5:02:11 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685083d450f782c468cd8fe9
+[6/16/2025, 5:02:11 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 685084b850f782c468cd8feb
+[6/16/2025, 5:02:11 PM; Module.autocompleteChannels (file:///root/autobump-api/src/db.ts:89:8)] processing channel 6850864e50f782c468cd8fec
+Got request
+Running command: start_channel (1383194243891331084, guild 1317211696619847700)
+[6/16/2025, 5:02:15 PM; Module.logInteraction (file:///root/autobump-api/src/util.ts:27:2)] user=912828654776631446 channel=1367306161442783383 options={ channel: '685083d450f782c468cd8fe9' }
+[6/16/2025, 5:02:15 PM; Module.startBumper (file:///root/autobump-api/src/autobump.ts:90:7)] started bumper for user=912828654776631446 channel=1367306161442783383 bumper=disboard
+[6/16/2025, 5:02:17 PM; disboard (file:///root/autobump-api/src/bumpers/disboard.ts:42:2)] Bumped!
