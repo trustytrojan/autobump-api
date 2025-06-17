@@ -1,6 +1,7 @@
 import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
+import * as autobump from '../autobump.ts';
 
 export default class ListChannels extends sc.SlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
@@ -15,21 +16,29 @@ export default class ListChannels extends sc.SlashCommand {
 		util.logInteraction(ctx);
 
 		const embed: sc.MessageEmbedOptions = {
-			title: `Channels for @${ctx.user.username}`,
-			description: '',
+			fields: [
+				{ name: 'Channel', value: '', inline: true },
+				{ name: 'Bumper', value: '', inline: true },
+				{ name: 'Next bump', value: '', inline: true },
+			],
 		};
 
 		const msg: sc.MessageOptions = { ephemeral: true, embeds: [embed] };
 		const channelsCursor = db.getChannelsForUser(ctx.user.id);
 
-		if (!(await channelsCursor.hasNext())) {
-			embed.description = 'No channels found';
-			return msg;
-		}
+		if (!(await channelsCursor.hasNext()))
+			return 'you have not added any channels!';
 
 		for await (const c of channelsCursor) {
-			embed.description +=
-				`\`${c._id}\` <#${c.discordChannelId}> \`${c.bumper}\`\n`;
+			embed.fields![0].value += `\n<#${c.discordChannelId}>`;
+			embed.fields![1].value += `\n${c.bumper}`;
+			const nextBumpTime = autobump.getNextBumpTime(
+				c.discordChannelId,
+				c.bumper,
+			);
+			embed.fields![2].value += (nextBumpTime === -1)
+				? `\nnot bumping`
+				: `\n<t:${Math.floor(nextBumpTime / 1e3)}:R>`;
 		}
 
 		return msg;

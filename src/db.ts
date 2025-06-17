@@ -42,10 +42,18 @@ export type Channel = {
 	bumper: BumperType;
 };
 
-export const getUserByDiscordId = async (discordId: string) =>
-	(await users.findOne({ discordUserId: discordId })) as
-	| (mdb.WithId<mdb.Document> & User)
-	| null;
+export const getUserByDiscordId = async (
+	discordId: string,
+): Promise<mdb.WithId<mdb.Document> & User> => {
+	let user = await users.findOne({ discordUserId: discordId });
+	if (!user) {
+		const result = await registerUser(discordId);
+		if (!result.acknowledged)
+			throw 'failed to register user';
+		user = await users.findOne({ _id: result.insertedId });
+	}
+	return user as mdb.WithId<mdb.Document> & User;
+};
 
 export const addBumps = async (discordUserId: string, bumps: number) => {
 	const user = await getUserByDiscordId(discordUserId);
@@ -69,8 +77,8 @@ export const deductBump = async (discordUserId: string) => {
 
 export const getChannelById = async (_id: string) =>
 	(await channels.findOne({ _id: new mdb.ObjectId(_id) })) as
-	| mdb.WithId<mdb.Document> & Channel
-	| null;
+		| mdb.WithId<mdb.Document> & Channel
+		| null;
 
 export const getChannelsForUser = (discordId: string) =>
 	channels.find({ discordUserId: discordId }) as mdb.FindCursor<
@@ -87,16 +95,26 @@ export const autocompleteChannels = async (discordUserId: string) => {
 	const results: sc.AutocompleteChoice[] = [];
 	for await (const c of channels) {
 		util.log(`processing channel ${c._id}`);
-		const channel = await autobump.selfbot.channels.fetch(c.discordChannelId);
+		const channel = await autobump.selfbot.channels.fetch(
+			c.discordChannelId,
+		);
 		if (!channel) {
-			util.log(`WARNING: channel ${c.discordChannelId} no longer exists, you should delete`);
+			util.log(
+				`WARNING: channel ${c.discordChannelId} no longer exists, you should delete`,
+			);
 			continue;
 		}
 		if (!(channel instanceof sb.GuildChannel)) {
-			util.log(`WARNING: non guild channel found in channels collection: ${channel.id}`);
+			util.log(
+				`WARNING: non guild channel found in channels collection: ${channel.id}`,
+			);
 			continue;
 		}
-		results.push({ name: `${channel.guild.name} ⮞ ${channel.name}, bumping ${c.bumper}`, value: c._id.toString() });
+		results.push({
+			name:
+				`${channel.guild.name} ⮞ ${channel.name}, bumping ${c.bumper}`,
+			value: c._id.toString(),
+		});
 	}
 	return results;
 };

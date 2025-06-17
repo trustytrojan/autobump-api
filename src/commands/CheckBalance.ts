@@ -13,14 +13,7 @@ export default class CheckBalance extends sc.SlashCommand {
 
 	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
-
 		const user = await db.getUserByDiscordId(ctx.user.id);
-		if (!user) {
-			await db.registerUser(ctx.user.id);
-			return this.run(ctx);
-		}
-
-		util.log('User retrieved:', user);
-		return `you have ${user.bumps} bumps`;
+		return { ephemeral: true, content: `you have ${user.bumps} bumps` };
 	}
 }

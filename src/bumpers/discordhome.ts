@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import Discord from 'discord.js-selfbot-v13';
-import { log, millisFrom, wait } from '../util.ts';
+import { log, logError, millisFrom, wait } from '../util.ts';
 import ooc from 'out-of-character';
 
 /**
@@ -14,8 +14,9 @@ export default async function discordhome(
 
 	try {
 		msg = await channel.sendSlash('826100334534328340', 'bump');
-	} catch {
-		log(`/bump interaction failed, trying again in 1 minute`);
+	} catch (err) {
+		logError(err);
+		log('Initial interaction failed, trying again in 1 minute');
 		return millisFrom({ minutes: 1 });
 	}
 

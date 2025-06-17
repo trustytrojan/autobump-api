@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import Discord from 'discord.js-selfbot-v13';
-import { log, millisFrom } from '../util.ts';
+import { log, logError, millisFrom } from '../util.ts';
 
 /**
  * Sends `/bump` to DISCODUS in `channel`.
@@ -13,7 +13,8 @@ export default async function discodus(
 
 	try {
 		msg = await channel.sendSlash('1159147139960676422', 'bump');
-	} catch {
+	} catch (err) {
+		logError(err);
 		log(`Initial interaction failed, trying again in 1 minute`);
 		return millisFrom({ minutes: 1 });
 	}

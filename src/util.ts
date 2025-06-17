@@ -1,7 +1,7 @@
 import sc from 'slash-create';
 import sb from 'discord.js-selfbot-v13';
 import process from 'node:process';
-import readline from 'node:readline';
+// import readline from 'node:readline';
 import express from 'express';
 import { Buffer } from 'node:buffer';
 import { once } from 'node:events';
@@ -23,8 +23,13 @@ const _log = (logType: 'error' | 'log', values: unknown[]) => {
 	);
 };
 
-export const logInteraction = (ctx: sc.AutocompleteContext | sc.CommandContext) =>
-	log(`user=${ctx.user.id} channel=${ctx.channelID} options=${node_util.inspect(ctx.options)}`);
+export const logInteraction = (
+	ctx: sc.AutocompleteContext | sc.CommandContext,
+) => log(
+	`user=${ctx.user.id} channel=${ctx.channelID} options=${
+		node_util.inspect(ctx.options)
+	}`,
+);
 
 export const millisFrom = ({
 	hours,
@@ -54,9 +59,13 @@ const closeableEvents = [
 export const closeables: { close(): any }[] = [];
 
 for (const event of closeableEvents) {
-	process.on(event, () => {
+	process.on(event, (err) => {
+		if (err instanceof Error)
+			logError(err);
+		log(`event ${event} caught, closing resources and exiting`);
 		for (const closeable of closeables)
 			closeable.close();
+		log('goodbye');
 		process.exit();
 	});
 }
@@ -85,6 +94,7 @@ export const readExpressRequest = async (req: express.Request) => {
 	return Buffer.concat(chunks);
 };
 
+/*
 const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
@@ -116,3 +126,4 @@ export const askYesNo = (
 		const defaultIndicator = defaultYes ? '[Y/n]' : '[y/N]';
 		rl.question(`${question} ${defaultIndicator}: `, validateInput);
 	});
+*/

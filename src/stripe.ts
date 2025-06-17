@@ -18,12 +18,22 @@ if (!apiKey) {
 	process.exit(1);
 }
 
+const paymentLinkId = process.env.STRIPE_PAYMENT_LINK;
+if (!paymentLinkId) {
+	util.logError('STRIPE_PAYMENT_LINK env var required!');
+	process.exit(1);
+}
+
+const _100BumpsProductId = process.env.STRIPE_PRODUCT_ID;
+if (!_100BumpsProductId) {
+	util.logError('STRIPE_PRODUCT_ID env var required!');
+	process.exit(1);
+}
+
 export const api = new stripe(apiKey);
 
-export const _100_BUMPS_PRODUCT_ID = 'prod_Rqr1U9gpvn0Too';
-
 export const paymentLinkFor = (discordUserId: string) =>
-	`https://buy.stripe.com/test_28odRf9ESfCAcxObII?client_reference_id=${discordUserId}`;
+	`https://buy.stripe.com/${paymentLinkId}?client_reference_id=${discordUserId}`;
 
 // Define the event map interface
 interface StripeEventMap {
@@ -32,7 +42,7 @@ interface StripeEventMap {
 	'charge.succeeded': [stripe.Charge];
 	'charge.failed': [stripe.Charge];
 	'checkout.session.completed': [stripe.Checkout.Session];
-	'bumps': [number]; // just for the command
+	'bumps': [bumpsAdded: number, discordUserId: string];
 }
 
 export const events = new EventEmitter<StripeEventMap>();
@@ -80,7 +90,7 @@ events.on('checkout.session.completed', async (cs) => {
 	}
 
 	const [lineItem] = cs.line_items.data.filter(
-		(li) => li.price?.product === _100_BUMPS_PRODUCT_ID,
+		(li) => li.price?.product === _100BumpsProductId,
 	);
 
 	if (!lineItem.quantity) {
@@ -91,7 +101,7 @@ events.on('checkout.session.completed', async (cs) => {
 	const bumpsToAdd = lineItem.quantity * 100;
 	db.addBumps(discordUserId, bumpsToAdd);
 	util.log(`user ${discordUserId} bought ${bumpsToAdd} bumps!`);
-	events.emit('bumps', bumpsToAdd);
+	events.emit('bumps', bumpsToAdd, discordUserId);
 });
 
 util.log('Stripe webhook listener registered');

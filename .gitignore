@@ -1,4 +1,6 @@
-.env
+*.env
 deno.lock
 package-lock.json
 node_modules
+log
+pid

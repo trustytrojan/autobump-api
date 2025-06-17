@@ -1,7 +1,7 @@
 import sc from 'slash-create';
 import sb from 'discord.js-selfbot-v13';
 import * as util from '../util.ts';
-import * as autobump from '../autobump.ts'
+import * as autobump from '../autobump.ts';
 
 export default class Ping extends sc.SlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
@@ -12,9 +12,10 @@ export default class Ping extends sc.SlashCommand {
 				{
 					type: sc.CommandOptionType.STRING,
 					name: 'invite_link',
-					description: 'invite link to your server',
+					description:
+						'invite link to your server (make sure it bypasses join applications!)',
 					required: true,
-				}
+				},
 			],
 			...util.defaultSlashCommandOptions,
 		});
@@ -23,13 +24,21 @@ export default class Ping extends sc.SlashCommand {
 	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
 		const { invite_link } = ctx.options;
+		const msg: sc.MessageOptions = { ephemeral: true };
 
-		const guild = await autobump.selfbot.acceptInvite(invite_link, { bypassOnboarding: true, bypassVerify: true });
+		const guild = await autobump.selfbot.acceptInvite(invite_link, {
+			bypassOnboarding: true,
+			bypassVerify: true,
+		});
+
 		if (!(guild instanceof sb.Guild)) {
 			await guild.delete();
-			return `this is not a server invite link!`;
+			msg.content = `this is not a server invite link!`;
+			return msg;
 		}
 
-		return `the bot has joined your server **${guild.name}**!`;
+		msg.content =
+			`the bot has joined your server **${guild.name}**! make sure you give it the permissions necessary to use application commands!`;
+		return msg;
 	}
 }

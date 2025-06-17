@@ -17,11 +17,9 @@ export default class BuyBumps extends sc.SlashCommand {
 	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
 
-		const user = await db.getUserByDiscordId(ctx.user.id);
-		if (!user) {
-			await db.registerUser(ctx.user.id);
-			return this.run(ctx);
-		}
+		// call this to ensure the user is registered, otherwise the
+		// handler in stripe.ts might break
+		await db.getUserByDiscordId(ctx.user.id);
 
 		const initialResp = await ctx.send({
 			content: `you can buy 100 bumps for $1 here: ${
@@ -45,7 +43,10 @@ this is a reusable link. do NOT share this payment link with anyone else, any pu
 
 		const completedHandler = (
 			bumps: number,
+			discordUserId: string,
 		) => {
+			if (discordUserId !== ctx.user.id)
+				return;
 			msg.edit(
 				`checkout completed! **${bumps}** bumps added to your balance!`,
 			);
@@ -57,13 +58,12 @@ this is a reusable link. do NOT share this payment link with anyone else, any pu
 				'bumps',
 				completedHandler,
 			);
-			ctx.send('checkout session timed out!');
+			ctx.send(`checkout session timed out for user ${ctx.user.id}`);
 		}, FIVE_MINUTES);
 
 		myStripe.events.on(
 			'bumps',
 			completedHandler,
 		);
-		// the handler & timeout do the rest
 	}
 }

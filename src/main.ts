@@ -9,7 +9,7 @@ const creator = new sc.SlashCreator({
 	applicationID: '1355988571261112521',
 	publicKey: process.env.DISCORD_PUBLIC_KEY,
 	token: process.env.DISCORD_TOKEN,
-	endpointPath: '/autobump/interactions'
+	endpointPath: '/autobump/interactions',
 });
 
 creator.on('debug', console.log);
@@ -26,8 +26,10 @@ if (process.env.TEST_GUILD) {
 } else {
 	//console.log('about to sync global commands... press enter if ready');
 	//if (await util.askYesNo('sync global commands?', false))
-		await creator.syncGlobalCommands(true);
+	await creator.syncGlobalCommands(true);
 }
+
+console.log(creator.commands.get('1:global:start_channel')!.ids.get('global'));
 
 await creator
 	.withServer(new sc.ExpressServer(app, { alreadyListening: true }))

@@ -10,21 +10,40 @@ import assert from 'node:assert';
  */
 export type AutobumpFunction = (channel: sb.TextChannel) => Promise<number>;
 
+if (!process.env.SELFBOT_TOKEN) {
+	util.logError('SELFBOT_TOKEN env var required!');
+	process.exit(1);
+}
+
 export const selfbot = new sb.Client({ presence: { status: 'invisible' } });
-await selfbot.login(process.env.SELFBOT_TOKEN);
-util.log('selfbot logged in!');
+selfbot.login(process.env.SELFBOT_TOKEN).then(() =>
+	util.log('selfbot logged in!')
+);
 selfbot.once('ready', () => util.log('selfbot ready!'));
 
+type Timeout = 'Deno' extends keyof typeof globalThis ? number : NodeJS.Timeout;
+
 const handleStore: Record<
-	string,
-	'Deno' extends keyof typeof globalThis ? number : NodeJS.Timeout
+	string, // 'channelid-bumper'
+	[Timeout, number] // [timeout object, timestamp (ms) of next bump]
 > = {};
 
-export const stopBumper = (channelId: string, bumperType?: string) => {
+// returns -1 if bumper not found
+export const getNextBumpTime = (
+	channelId: string,
+	bumperType: db.BumperType,
+) => {
+	const identifier = `${channelId}-${bumperType}`;
+	if (!(identifier in handleStore))
+		return -1;
+	return handleStore[identifier][1];
+};
+
+export const stopBumper = (channelId: string, bumperType?: db.BumperType) => {
 	if (!bumperType) {
 		for (const btype of db.bumperTypes) {
 			const id = `${channelId}-${btype}`;
-			clearTimeout(handleStore[id]);
+			clearTimeout(handleStore[id][0]);
 			delete handleStore[id];
 		}
 		util.log(`stopped all bumpers in channelId=${channelId}`);
@@ -32,7 +51,7 @@ export const stopBumper = (channelId: string, bumperType?: string) => {
 	}
 
 	const identifier = `${channelId}-${bumperType}`;
-	clearTimeout(handleStore[identifier]);
+	clearTimeout(handleStore[identifier][0]);
 	delete handleStore[identifier];
 	util.log(`stopped bumper for channel=${channelId} bumper=${bumperType}`);
 };
@@ -66,7 +85,7 @@ export const startBumper = async (
 		try {
 			await db.deductBump(userId);
 		} catch (err) {
-			clearTimeout(handleStore[identifier]);
+			clearTimeout(handleStore[identifier][0]);
 			delete handleStore[identifier];
 			if (err === 'no bumps') {
 				/* notify user that they ran out */
@@ -79,13 +98,20 @@ export const startBumper = async (
 
 	const loop = (bumpDelayMs: number) => {
 		assert(bumpDelayMs >= 1_000);
-		handleStore[identifier] = setTimeout(
-			() =>
-				bump(channel).then(deductBump).then(loop).catch(console.error),
-			bumpDelayMs,
-		);
+		handleStore[identifier] = [
+			setTimeout(
+				() =>
+					bump(channel).then(deductBump).then(loop).catch(
+						console.error,
+					),
+				bumpDelayMs,
+			),
+			Date.now() + bumpDelayMs, // timestamp of next bump
+		];
 	};
 
 	loop(1_000);
-	util.log(`started bumper for user=${userId} channel=${channelId} bumper=${bumperType}`);
+	util.log(
+		`started bumper for user=${userId} channel=${channelId} bumper=${bumperType}`,
+	);
 };

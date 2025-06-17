@@ -1,6 +1,7 @@
 import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
+import StartChannel from './StartChannel.ts';
 
 export default class AddChannel extends sc.SlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
@@ -37,7 +38,7 @@ export default class AddChannel extends sc.SlashCommand {
 		const msg: sc.MessageOptions = { ephemeral: true, content: '' };
 
 		if (!channelId || !bumper) {
-			msg.content += 'a required option is missing!\n';
+			msg.content = 'a required option is missing!';
 			return msg;
 		}
 
@@ -48,12 +49,16 @@ export default class AddChannel extends sc.SlashCommand {
 		});
 
 		if (!r.acknowledged) {
-			msg.content +=
-				'an error occurred when creating a channel record, try again\n';
+			msg.content =
+				'an error occurred when creating a channel record, try again';
 			return msg;
 		}
 
-		msg.content += 'successfully created channel record!\n';
+		const startChannelCommandId = this.creator.commands.get(
+			'1:global:start_channel',
+		)!.ids.get('global');
+		msg.content =
+			`successfully created channel record! start it with </start_channel:${startChannelCommandId}>!`;
 		return msg;
 	}
 }
