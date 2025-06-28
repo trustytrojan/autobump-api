@@ -10,7 +10,7 @@ export default abstract class AutobumpSlashCommand extends sc.SlashCommand {
 		return ctx.send({
 			content: `**command error:** \`${err.message}\``
 				+ '\nthe devs have been notified and will work on a fix soon.',
-			ephemeral: true
+			ephemeral: true,
 		});
 	}
 }

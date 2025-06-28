@@ -8,8 +8,7 @@ import process from 'node:process';
 
 const uri = process.env.MONGODB_URI;
 if (!uri) {
-	util.logError('MONGODB_URI env var required!');
-	process.exit(1);
+	throw new Error('MONGODB_URI env var required!');
 }
 
 const client = new mdb.MongoClient(uri, {
@@ -22,7 +21,6 @@ const client = new mdb.MongoClient(uri, {
 util.log('Connecting to MongoDB server...');
 await client.connect();
 util.log('MongoDB client connected');
-util.closeables.push(client);
 
 const autobumpDb = client.db('autobump');
 export const users = autobumpDb.collection('users');

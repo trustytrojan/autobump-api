@@ -2,16 +2,13 @@ import express from 'express';
 import process from 'node:process';
 import * as util from './util.ts';
 
-const port = parseInt(process.argv[2]);
-if (isNaN(port)) {
-	util.log('port required');
-	process.exit(1);
-}
+const port = parseInt(process.env.PORT!);
+if (isNaN(port))
+	throw new Error('PORT env var required');
 
 export const app = express();
 
-const server = app.listen(
+app.listen(
 	port,
 	() => util.log(`Express server listening on port ${port}`),
 );
-util.closeables.push(server);

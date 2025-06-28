@@ -11,8 +11,7 @@ import assert from 'node:assert';
 export type AutobumpFunction = (channel: sb.TextChannel) => Promise<number>;
 
 if (!process.env.SELFBOT_TOKEN) {
-	util.logError('SELFBOT_TOKEN env var required!');
-	process.exit(1);
+	throw new Error('SELFBOT_TOKEN env var required!');
 }
 
 let adminUser: sb.User | undefined;

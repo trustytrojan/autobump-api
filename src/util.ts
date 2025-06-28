@@ -45,17 +45,6 @@ export const millisFrom = ({
 export const wait = (ms: number) =>
 	new Promise((resolve) => setTimeout(resolve, ms));
 
-export const closeables: { close(): any }[] = [];
-
-// process.on('SIGINT', process.exit);
-// process.on('SIGTERM', process.exit);
-process.on('exit', () => {
-	log('exit: closing resources');
-	for (const closeable of closeables)
-		closeable.close();
-	log('exit: goodbye');
-});
-
 export const defaultSlashCommandOptions: Partial<sc.SlashCommandOptions> = {
 	guildIDs: process.env.TEST_GUILD, // if not in env, turns this into a global command
 	integrationTypes: [

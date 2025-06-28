@@ -7,28 +7,20 @@ import * as db from './db.ts';
 (await import('dotenv')).config();
 
 const endpointSecret = process.env.STRIPE_SIG;
-if (!endpointSecret) {
-	util.logError('STRIPE_SIG env var required!');
-	process.exit(1);
-}
+if (!endpointSecret)
+	throw new Error('STRIPE_SIG env var required!');
 
 const apiKey = process.env.STRIPE_API;
-if (!apiKey) {
-	util.logError('STRIPE_API env var required!');
-	process.exit(1);
-}
+if (!apiKey)
+	throw new Error('STRIPE_API env var required!');
 
 const paymentLinkId = process.env.STRIPE_PAYMENT_LINK;
-if (!paymentLinkId) {
-	util.logError('STRIPE_PAYMENT_LINK env var required!');
-	process.exit(1);
-}
+if (!paymentLinkId)
+	throw new Error('STRIPE_PAYMENT_LINK env var required!');
 
 const _100BumpsProductId = process.env.STRIPE_PRODUCT_ID;
-if (!_100BumpsProductId) {
-	util.logError('STRIPE_PRODUCT_ID env var required!');
-	process.exit(1);
-}
+if (!_100BumpsProductId)
+	throw new Error('STRIPE_PRODUCT_ID env var required!');
 
 export const api = new stripe(apiKey);
 
