@@ -1,8 +1,9 @@
 import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
+import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 
-export default class CheckBalance extends sc.SlashCommand {
+export default class CheckBalance extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
 			name: 'check_balance',

@@ -2,10 +2,11 @@ import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
 import * as myStripe from '../stripe.ts';
+import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 
 const FIVE_MINUTES = util.millisFrom({ minutes: 5 });
 
-export default class BuyBumps extends sc.SlashCommand {
+export default class BuyBumps extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
 			name: 'buy_bumps',

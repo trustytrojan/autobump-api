@@ -2,8 +2,9 @@ import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
 import * as autobump from '../autobump.ts';
+import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 
-export default class ListChannels extends sc.SlashCommand {
+export default class ListChannels extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
 			name: 'list_channels',

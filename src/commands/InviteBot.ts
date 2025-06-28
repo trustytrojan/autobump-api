@@ -2,8 +2,9 @@ import sc from 'slash-create';
 import sb from 'discord.js-selfbot-v13';
 import * as util from '../util.ts';
 import * as autobump from '../autobump.ts';
+import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 
-export default class Ping extends sc.SlashCommand {
+export default class Ping extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
 			name: 'invite_bot',

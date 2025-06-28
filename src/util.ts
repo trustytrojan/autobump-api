@@ -1,8 +1,6 @@
 import sc from 'slash-create';
 import sb from 'discord.js-selfbot-v13';
 import process from 'node:process';
-// import readline from 'node:readline';
-import express from 'express';
 import { Buffer } from 'node:buffer';
 import { once } from 'node:events';
 (await import('dotenv')).config();
@@ -47,28 +45,16 @@ export const millisFrom = ({
 export const wait = (ms: number) =>
 	new Promise((resolve) => setTimeout(resolve, ms));
 
-const closeableEvents = [
-	'beforeExit',
-	'exit',
-	'uncaughtException',
-	'unhandledRejection',
-	'SIGINT',
-	'SIGTERM',
-];
-
 export const closeables: { close(): any }[] = [];
 
-for (const event of closeableEvents) {
-	process.on(event, (err) => {
-		if (err instanceof Error)
-			logError(err);
-		log(`event ${event} caught, closing resources and exiting`);
-		for (const closeable of closeables)
-			closeable.close();
-		log('goodbye');
-		process.exit();
-	});
-}
+// process.on('SIGINT', process.exit);
+// process.on('SIGTERM', process.exit);
+process.on('exit', () => {
+	log('exit: closing resources');
+	for (const closeable of closeables)
+		closeable.close();
+	log('exit: goodbye');
+});
 
 export const defaultSlashCommandOptions: Partial<sc.SlashCommandOptions> = {
 	guildIDs: process.env.TEST_GUILD, // if not in env, turns this into a global command
@@ -87,43 +73,9 @@ export const importBumper = async (
 	type: import('./db.ts').BumperType,
 ): Promise<AutobumpFunction> => (await import(`./bumpers/${type}.ts`)).default;
 
-export const readExpressRequest = async (req: express.Request) => {
+export const readExpressRequest = async (req: import('express').Request) => {
 	const chunks: Buffer[] = [];
 	req.on('data', chunks.push.bind(chunks));
 	await once(req, 'end');
 	return Buffer.concat(chunks);
 };
-
-/*
-const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout,
-});
-
-export const askYesNo = (
-	question: string,
-	defaultYes: boolean,
-): Promise<boolean> =>
-	new Promise((resolve) => {
-		const validateInput = (input: string) => {
-			const answer = input.trim().toLowerCase();
-			if (answer === '') {
-				rl.close();
-				resolve(defaultYes); // Return the default value if input is empty
-			} else if (answer === 'y') {
-				rl.close();
-				resolve(true); // Return true for "yes"
-			} else if (answer === 'n') {
-				rl.close();
-				resolve(false); // Return false for "no"
-			} else {
-				console.log('Please enter "y" or "n".');
-				rl.question(question, validateInput);
-			}
-		};
-
-		// Adjust the prompt based on the default value
-		const defaultIndicator = defaultYes ? '[Y/n]' : '[y/N]';
-		rl.question(`${question} ${defaultIndicator}: `, validateInput);
-	});
-*/

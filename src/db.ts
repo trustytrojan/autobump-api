@@ -49,7 +49,7 @@ export const getUserByDiscordId = async (
 	if (!user) {
 		const result = await registerUser(discordId);
 		if (!result.acknowledged)
-			throw 'failed to register user';
+			throw new Error('failed to register user');
 		user = await users.findOne({ _id: result.insertedId });
 	}
 	return user as mdb.WithId<mdb.Document> & User;
@@ -58,7 +58,7 @@ export const getUserByDiscordId = async (
 export const addBumps = async (discordUserId: string, bumps: number) => {
 	const user = await getUserByDiscordId(discordUserId);
 	if (!user)
-		throw 'not found';
+		throw new Error('user not found');
 	await users.updateOne({ discordUserId: discordUserId }, {
 		$inc: { bumps },
 	});
@@ -67,9 +67,9 @@ export const addBumps = async (discordUserId: string, bumps: number) => {
 export const deductBump = async (discordUserId: string) => {
 	const user = await getUserByDiscordId(discordUserId);
 	if (!user)
-		throw 'not found';
+		throw new Error('user not found');
 	if (user.bumps <= 0)
-		throw 'no bumps';
+		throw new Error('user has no bumps');
 	await users.updateOne({ discordUserId: discordUserId }, {
 		$inc: { bumps: -1 },
 	});

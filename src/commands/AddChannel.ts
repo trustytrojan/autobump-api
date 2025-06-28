@@ -1,9 +1,9 @@
 import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
-import StartChannel from './StartChannel.ts';
+import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 
-export default class AddChannel extends sc.SlashCommand {
+export default class AddChannel extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
 			name: 'add_channel',
@@ -56,7 +56,7 @@ export default class AddChannel extends sc.SlashCommand {
 
 		const startChannelCommandId = this.creator.commands.get(
 			'1:global:start_channel',
-		)!.ids.get('global');
+		)?.ids.get('global');
 		msg.content =
 			`successfully created channel record! start it with </start_channel:${startChannelCommandId}>!`;
 		return msg;

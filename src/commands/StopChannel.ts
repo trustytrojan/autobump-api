@@ -2,8 +2,9 @@ import sc from 'slash-create';
 import * as db from '../db.ts';
 import * as util from '../util.ts';
 import * as autobump from '../autobump.ts';
+import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 
-export default class StopChannel extends sc.SlashCommand {
+export default class StopChannel extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
 			name: 'stop_channel',
@@ -21,6 +22,7 @@ export default class StopChannel extends sc.SlashCommand {
 		});
 	}
 
+	// deno-lint-ignore require-await
 	override async autocomplete(ctx: sc.AutocompleteContext) {
 		if (ctx.focused !== 'channel')
 			return [];

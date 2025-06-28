@@ -12,7 +12,7 @@ const creator = new sc.SlashCreator({
 	endpointPath: '/autobump/interactions',
 });
 
-creator.on('debug', console.log);
+creator.on('debug', console.debug);
 creator.on('error', console.error);
 
 await creator.registerCommandsIn(path.join(import.meta.dirname!, 'commands'), [
@@ -24,12 +24,8 @@ if (process.env.TEST_GUILD) {
 		.syncCommandsIn(process.env.TEST_GUILD)
 		.catch(() => util.log('app not added to test guild!'));
 } else {
-	//console.log('about to sync global commands... press enter if ready');
-	//if (await util.askYesNo('sync global commands?', false))
-	await creator.syncGlobalCommands(true);
+	await creator.syncGlobalCommands();
 }
-
-console.log(creator.commands.get('1:global:start_channel')!.ids.get('global'));
 
 await creator
 	.withServer(new sc.ExpressServer(app, { alreadyListening: true }))
