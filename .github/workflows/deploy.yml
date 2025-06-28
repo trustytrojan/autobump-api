@@ -1,7 +1,7 @@
 name: Deploy
 on:
   push:
-    branches: main, deno-deploy
+    branches: [main, deno-deploy]
   pull_request:
     branches: main
 
