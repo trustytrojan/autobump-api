@@ -30,5 +30,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "autobump"
-          entrypoint: "main.ts"
-          root: "src"
+          entrypoint: "src/main.ts"
