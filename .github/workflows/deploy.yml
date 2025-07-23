@@ -1,9 +1,9 @@
 name: Deploy
 on:
   push:
-    branches: main
+    branches: deno-deploy
   pull_request:
-    branches: main
+    branches: deno-deploy
 
 jobs:
   deploy:
@@ -34,7 +34,7 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "trustytroja-autobump-ap-28"
+          project: "autobump"
           entrypoint: "src/main.ts"
           root: ""
           

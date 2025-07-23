@@ -83,7 +83,7 @@ export const getChannelsForUser = (discordId: string) =>
 		mdb.WithId<mdb.Document> & Channel
 	>;
 
-export const registerUser = async (discordId: string, bumps = 0) =>
+export const registerUser = async (discordId: string, bumps = 100) =>
 	await users.insertOne({ discordUserId: discordId, bumps });
 
 export const addChannel = async (c: Channel) => await channels.insertOne(c);

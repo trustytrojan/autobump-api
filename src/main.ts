@@ -6,7 +6,7 @@ import sc from 'slash-create';
 import { app } from './express.ts';
 
 const creator = new sc.SlashCreator({
-	applicationID: '1355988571261112521',
+	applicationID: process.env.APPLICATION_ID!,
 	publicKey: process.env.DISCORD_PUBLIC_KEY,
 	token: process.env.DISCORD_TOKEN,
 	endpointPath: '/autobump/interactions',
