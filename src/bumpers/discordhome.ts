@@ -68,7 +68,7 @@ export default async function discordhome(
 
 		const result = eval(mathExpression);
 		assert(typeof result === 'number');
-		const buttonCustomId = msg.components[0].components.find(
+		const buttonCustomId = (msg.components[0] as Discord.MessageActionRow).components.find(
 			(b) => b.type === 'BUTTON' && b.label == result.toString(),
 		)?.customId;
 		assert(buttonCustomId);
