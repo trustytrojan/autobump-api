@@ -35,7 +35,7 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "autobump"
-          entrypoint: "main.ts"
-          root: "src"
-          include: ./**/*.ts
+          entrypoint: "src/main.ts"
+          root: ""
+          
           
