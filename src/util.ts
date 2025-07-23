@@ -8,26 +8,25 @@ import node_util from 'node:util';
 
 export const log = (...values: unknown[]) => _log('log', values);
 export const logError = (...values: unknown[]) => _log('error', values);
+export const logInteraction = (
+	ctx: sc.AutocompleteContext | sc.CommandContext,
+) => _log('log', [
+	`user=${ctx.user.id} channel=${ctx.channelID} options=${
+		node_util.inspect(ctx.options)
+	}`,
+]);
 
-const _log = (logType: 'error' | 'log', values: unknown[]) => {
+const _log = (logType: 'error' | 'log', values: unknown[], stackDepth = 2) => {
 	const obj = {} as { stack: string };
 	Error.captureStackTrace(obj, _log); // Capture the stack trace, excluding `log` itself
 	const stackLines = obj.stack.split('\n');
 	// The first line is the error message itself, which we don't need, and the second line should now be the caller
-	const callerLine = stackLines[2].trim().replace('at ', '') || ''; // Adjust based on your environment
+	const callerLine = stackLines[stackDepth].trim().replace('at ', '') || ''; // Adjust based on your environment
 	console[logType](
 		`[${new Date().toLocaleString()}; ${callerLine}]`,
 		...values,
 	);
 };
-
-export const logInteraction = (
-	ctx: sc.AutocompleteContext | sc.CommandContext,
-) => log(
-	`user=${ctx.user.id} channel=${ctx.channelID} options=${
-		node_util.inspect(ctx.options)
-	}`,
-);
 
 export const millisFrom = ({
 	hours,
