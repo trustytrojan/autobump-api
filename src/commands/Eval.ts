@@ -5,6 +5,10 @@ import * as util from '../util.ts';
 import AutobumpSlashCommand from '../AutobumpSlashCommand.ts';
 import { Buffer } from 'node:buffer';
 
+/// imports for eval usage:
+// deno-lint-ignore no-unused-vars
+const autobump = await import('../autobump.ts');
+
 export default class Eval extends AutobumpSlashCommand {
 	constructor(creator: sc.BaseSlashCreator) {
 		super(creator, {
@@ -35,7 +39,7 @@ export default class Eval extends AutobumpSlashCommand {
 	override async run(ctx: sc.CommandContext) {
 		util.logInteraction(ctx);
 		if (ctx.user.id !== process.env.AUTOBUMP_ADMIN) {
-			console.log(`user ${ctx.user.id} tried to use /eval`);
+			util.log(`user ${ctx.user.id} tried to use /eval`);
 			return;
 		}
 

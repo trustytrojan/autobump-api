@@ -63,7 +63,7 @@ export const stopBumper = (channelId: string, bumperType?: db.BumperType) => {
 	if (!bumperType) {
 		for (const btype of db.bumperTypes) {
 			const id = `${channelId}-${btype}`;
-			clearTimeout(handleStore[id][0]);
+			clearTimeout(handleStore[id]?.[0]);
 			delete handleStore[id];
 		}
 		util.log(`stopped all bumpers in channelId=${channelId}`);
@@ -100,7 +100,7 @@ export const startBumper = async (
 	const bump = await util.importBumper(bumperType);
 
 	const deductBump = async (ms: number) => {
-		if (userId === '239743430899531777')
+		if (userId === process.env.AUTOBUMP_ADMIN || process.env.DISABLE_STRIPE)
 			return ms;
 
 		try {

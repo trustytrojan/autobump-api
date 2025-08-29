@@ -1,17 +1,17 @@
 {
 	"dependencies": {
 		"discord.js-selfbot-v13": "^3.7.0",
-		"dotenv": "^17.2.0",
+		"dotenv": "^17.2.1",
 		"express": "^5.1.0",
-		"mongodb": "^6.18.0",
+		"mongodb": "^6.19.0",
 		"out-of-character": "^2.0.1",
-		"slash-create": "^6.5.0",
-		"stripe": "^18.3.0",
+		"slash-create": "^6.6.0",
+		"stripe": "^18.5.0",
 		"tweetnacl": "^1.0.3"
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.3",
-		"@types/node": "^24.1.0",
+		"@types/node": "^24.3.0",
 		"prettier": "^3.6.2"
 	},
 	"type": "module",

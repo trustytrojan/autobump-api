@@ -7,9 +7,8 @@ import process from 'node:process';
 (await import('dotenv')).config();
 
 const uri = process.env.MONGODB_URI;
-if (!uri) {
+if (!uri)
 	throw new Error('MONGODB_URI env var required!');
-}
 
 const client = new mdb.MongoClient(uri, {
 	serverApi: {
@@ -89,30 +88,36 @@ export const registerUser = async (discordId: string, bumps = 100) =>
 export const addChannel = async (c: Channel) => await channels.insertOne(c);
 
 export const autocompleteChannels = async (discordUserId: string) => {
-	const channels = getChannelsForUser(discordUserId);
+	const channelsForUser = getChannelsForUser(discordUserId);
 	const results: sc.AutocompleteChoice[] = [];
-	for await (const c of channels) {
-		util.log(`processing channel ${c._id}`);
+
+	for await (const c of channelsForUser) {
 		const channel = await autobump.selfbot.channels.fetch(
 			c.discordChannelId,
 		);
+
 		if (!channel) {
 			util.log(
-				`WARNING: channel ${c.discordChannelId} no longer exists, you should delete`,
+				`channel ${c.discordChannelId} no longer exists. deleting from db!`,
 			);
+			await channels.deleteOne({ _id: c._id });
 			continue;
 		}
+
 		if (!(channel instanceof sb.GuildChannel)) {
 			util.log(
-				`WARNING: non guild channel found in channels collection: ${channel.id}`,
+				`non guild channel found in channels collection: ${channel.id}. deleting from db!`,
 			);
+			await channels.deleteOne({ _id: c._id });
 			continue;
 		}
+
 		results.push({
 			name:
 				`${channel.guild.name} ⮞ ${channel.name}, bumping ${c.bumper}`,
 			value: c._id.toString(),
 		});
 	}
+
 	return results;
 };

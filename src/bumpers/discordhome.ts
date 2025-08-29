@@ -68,9 +68,10 @@ export default async function discordhome(
 
 		const result = eval(mathExpression);
 		assert(typeof result === 'number');
-		const buttonCustomId = (msg.components[0] as Discord.MessageActionRow).components.find(
-			(b) => b.type === 'BUTTON' && b.label == result.toString(),
-		)?.customId;
+		const buttonCustomId = (msg.components[0] as Discord.MessageActionRow)
+			.components.find(
+				(b) => b.type === 'BUTTON' && b.label == result.toString(),
+			)?.customId;
 		assert(buttonCustomId);
 
 		// sometimes the button click fails... gonna have to keep trying
@@ -84,7 +85,7 @@ export default async function discordhome(
 
 				if (
 					err instanceof Error
-					&& !err.message.includes('INTERACTION_FAILED')
+					&& !err.message.includes('No response')
 				) {
 					log('Unknown error occurred when trying to click button!');
 					console.error(err);
