@@ -94,15 +94,13 @@ export const autocompleteChannels = async (discordUserId: string) => {
 	for await (const c of channelsForUser) {
 		const channel = await autobump.selfbot.channels.fetch(
 			c.discordChannelId,
-		);
+		).catch(() => {
+			util.log('channel fetch failed, deleting from db!');
+			channels.deleteOne({ _id: c._id });
+		});
 
-		if (!channel) {
-			util.log(
-				`channel ${c.discordChannelId} no longer exists. deleting from db!`,
-			);
-			await channels.deleteOne({ _id: c._id });
+		if (!channel)
 			continue;
-		}
 
 		if (!(channel instanceof sb.GuildChannel)) {
 			util.log(
@@ -113,8 +111,7 @@ export const autocompleteChannels = async (discordUserId: string) => {
 		}
 
 		results.push({
-			name:
-				`${channel.guild.name} ⮞ ${channel.name}, bumping ${c.bumper}`,
+			name: `${c.bumper} on #${channel.name} in ${channel.guild.name}`,
 			value: c._id.toString(),
 		});
 	}
